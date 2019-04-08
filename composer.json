@@ -1,0 +1,48 @@
+{
+    "name": "travelbuild/eloquent-filterable",
+    "description": "Use dynamically Eloquent scopes for search process",
+    "type": "library",
+    "keywords": [
+        "eloquent",
+        "filter",
+        "laravel"
+    ],
+    "license": "MIT",
+    "require": {
+        "php" : "^7.1.3",
+        "illuminate/database": "~5.8.0",
+        "illuminate/support": "~5.8.0"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "orchestra/testbench": "~3.8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Travelbuild\\Filterable\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Travelbuild\\Filterable\\Test\\": "tests"
+        },
+        "classmap": [
+            "tests/database/seeds"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\Activitylog\\ActivitylogServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
