@@ -25,11 +25,14 @@ composer require travelbuild/eloquent-filterable
 Each model must be implement the `Filterable` trait.
 
 ```php
+<?php
+
 namespace App;
 
 use Travelbuild\Filterable\Filterable;
+use Illuminate\Database\Eloquent\Model;
 
-class Post
+class Post extends Model
 {
     use Filterable;
 }
@@ -44,7 +47,7 @@ Then, you can define local scopes in your model. If you need help to local scope
  * @param  Builder  $query
  * @return Builder
  */
-public function scopeActive(Builder $query)
+public function scopeActive(Builder $query): Builder
 {
     return $query->where('active', true);
 }
@@ -87,6 +90,8 @@ $users = User::filter(['active' => true])->paginate();
 We needed this package to quickly respond HTTP requests. Our client send to us some conditions using by search endpoint. We wanted to handle these filter conditions dynamically for simplicity and reusability.
 
 ```php
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Post;
@@ -102,7 +107,7 @@ class PostSearchController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts = Post::search($request->all())->paginate(
+        $posts = Post::filter($request->all())->paginate(
             $request->get('limit', 25)
         );
 
@@ -120,11 +125,15 @@ Route::get('/posts', 'PostSearchController');
 Define model and filterable local scopes:
 
 ```php
+<?php
+
 namespace App;
 
 use Travelbuild\Filterable\Filterable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Post
+class Post extends Model
 {
     use Filterable;
 
@@ -144,7 +153,7 @@ class Post
      * @param  Builder  $query
      * @return Builder
      */
-    public function scopeActive(Builder $query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }
@@ -156,7 +165,7 @@ class Post
      * @param  int  $authorId
      * @return Builder
      */
-    public function scopeAuthor(Builder $query, int $authorId)
+    public function scopeAuthor(Builder $query, int $authorId): Builder
     {
         return $query->where('author_id', $authorId);
     }
