@@ -30,13 +30,6 @@
             "tests/database/seeds"
         ]
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Spatie\\Activitylog\\ActivitylogServiceProvider"
-            ]
-        }
-    },
     "scripts": {
         "test": "vendor/bin/phpunit"
     },
