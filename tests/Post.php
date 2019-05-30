@@ -95,7 +95,7 @@ class Post extends Model
                 $viewsCount['from'],
                 $viewsCount['to'],
             ]);
-        } elseif (Arr::has($viewsCount, 'from') && !Arr::has($viewsCount, 'to')) {
+        } elseif (Arr::has($viewsCount, 'from') && ! Arr::has($viewsCount, 'to')) {
             return $builder->where('views_count', '>=', $viewsCount['from']);
         } else {
             return $builder->where('start_date', '<=', $viewsCount['to']);
