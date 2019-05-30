@@ -2,6 +2,7 @@
 
 namespace Travelbuild\Filterable\Test;
 
+use Illuminate\Support\Arr;
 use Travelbuild\Filterable\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,6 +30,7 @@ class Post extends Model
         'active',
         'popular',
         'recent',
+        'views_count',
     ];
 
     /**
@@ -79,5 +81,24 @@ class Post extends Model
         }
 
         return $query->whereBetween('created_at', [$begin, $end]);
+    }
+
+    /**
+     * @param  Builder  $builder
+     * @param  array  $viewsCount
+     * @return Builder
+     */
+    public function scopeViewsCount(Builder $builder, array $viewsCount): Builder
+    {
+        if (Arr::has($viewsCount, 'from') && Arr::has($viewsCount, 'to')) {
+            return $builder->whereBetween('views_count', [
+                $viewsCount['from'],
+                $viewsCount['to'],
+            ]);
+        } elseif (Arr::has($viewsCount, 'from') && !Arr::has($viewsCount, 'to')) {
+            return $builder->where('views_count', '>=', $viewsCount['from']);
+        } else {
+            return $builder->where('start_date', '<=', $viewsCount['to']);
+        }
     }
 }
