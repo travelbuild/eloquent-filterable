@@ -145,4 +145,44 @@ SQL;
 
         $this->assertEqualsIgnoringCase($expected, $this->toSql($query));
     }
+
+    /**
+     * Test the query with views_count filter.
+     *
+     * @return void
+     */
+    public function testViewsCountFilter()
+    {
+        $query = Post::filter([
+            'views_count' => [
+                'from' => 20,
+                'to' => 45,
+            ],
+        ]);
+
+        $expected = <<<'SQL'
+SELECT * FROM "posts" WHERE "views_count" BETWEEN '20' AND '45'
+SQL;
+
+        $this->assertEqualsIgnoringCase($expected, $this->toSql($query));
+    }
+
+    /**
+     * Test the query with views_count filter's result count.
+     *
+     * @return void
+     */
+    public function testViewsCountFilterResultCount()
+    {
+        $resultCount = Post::filter([
+            'views_count' => [
+                'from' => 20,
+                'to' => 45,
+            ],
+        ])->count();
+
+        $expected = 2;
+
+        $this->assertEqualsIgnoringCase($expected, $resultCount);
+    }
 }

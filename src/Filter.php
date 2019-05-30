@@ -80,7 +80,11 @@ class Filter
                 return filled($value);
             });
 
-            $this->model->$scope($this->query, ...$value);
+            if (is_array($value) && Arr::isAssoc($value)) {
+                $this->model->$scope($this->query, $value);
+            } else {
+                $this->model->$scope($this->query, ...$value);
+            }
         }
     }
 }
